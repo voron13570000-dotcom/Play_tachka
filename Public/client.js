@@ -1,5 +1,6 @@
 const socket=io();
 let state=null;
+let myPlayerId=localStorage.getItem("tachkaPlayerId")||null;
 const $=s=>document.querySelector(s);
 const money=n=>Number(n||0).toLocaleString("ru-RU")+" ₽";
 
@@ -15,7 +16,7 @@ function renderLobby(){
   $("#start").style.display=socket.id===state.players[0]?.socketId?"block":"block";
 }
 function renderGame(){
-  const me=state.players.find(p=>p.socketId===socket.id) || state.players.find(p=>p.name===$("#name").value);
+  const me=state.players.find(p=>p.id===myPlayerId) || state.players.find(p=>p.name===$("#name").value);
   const current=state.players[state.turn];
   $("#status").innerHTML=state.phase==="finished"
     ? `<div class="winner">🏆 ${state.players.find(p=>p.id===state.winner)?.name||"Игрок"} победил!</div>`
@@ -44,5 +45,8 @@ $("#roll").onclick=()=>socket.emit("roll");
 $("#end").onclick=()=>socket.emit("endTurn");
 document.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>socket.emit("action",{type:b.dataset.action}));
 $("#copy").onclick=()=>navigator.clipboard?.writeText(state.code).then(()=>alert("Код скопирован: "+state.code));
-socket.on("room",showRoom);
+socket.on("room",r=>{
+  showRoom(r);
+  if(!myPlayerId){ const same=r.players.find(p=>p.name===$("#name").value); if(same){ myPlayerId=same.id; localStorage.setItem("tachkaPlayerId",myPlayerId); renderGame(); } }
+});
 socket.on("errorMsg",msg=>alert(msg));
