@@ -1,0 +1,14 @@
+{
+  "name": "tachka-nevozvrata-online",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Мультиплеерный веб-прототип Тачка Невозврата",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
