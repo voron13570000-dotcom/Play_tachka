@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тачка Невозврата — Online</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <header><div class="logo">ТАЧКА <span>НЕВОЗВРАТА</span></div><div class="badge">ONLINE • MVP</div></header>
+
+  <main id="lobby" class="screen">
+    <section class="hero">
+      <h1>Автобизнес начинается здесь</h1>
+      <p>Создай комнату, пригласи друзей и попробуйте первым накопить капитал на машину мечты.</p>
+      <div class="setup">
+        <input id="name" maxlength="20" placeholder="Твоё имя" value="Игрок">
+        <select id="goal"><option value="3000000">Цель: 3 000 000 ₽</option><option value="5000000">Цель: 5 000 000 ₽</option></select>
+        <button id="create">Создать игру</button>
+      </div>
+      <div class="join"><input id="code" maxlength="6" placeholder="КОД КОМНАТЫ"><button id="join">Войти</button></div>
+      <p class="small">2–6 игроков • онлайн-комнаты • старт 150 000 ₽</p>
+    </section>
+  </main>
+
+  <main id="room" class="screen hidden">
+    <div class="topbar">
+      <div><b>Комната <span id="roomCode"></span></b><button class="copy" id="copy">Скопировать код</button></div>
+      <div id="phase"></div>
+    </div>
+    <div id="lobbyPanel" class="panel hidden">
+      <h2>Игроки</h2><div id="playersLobby"></div>
+      <button id="start" class="primary">НАЧАТЬ ИГРУ</button>
+      <p class="small">Нужно минимум 2 игрока. Отправь друзьям код комнаты.</p>
+    </div>
+
+    <div id="gamePanel" class="game hidden">
+      <aside class="side">
+        <div class="panel"><h3>Игроки</h3><div id="players"></div></div>
+        <div class="panel"><h3>Журнал</h3><div id="log"></div></div>
+      </aside>
+
+      <section class="boardWrap">
+        <div class="board" id="board"></div>
+        <div class="controls panel">
+          <div id="status" class="status"></div>
+          <div class="actions">
+            <button id="roll" class="primary">🎲 Бросить кубик</button>
+            <button data-action="buy">🚗 Купить</button>
+            <button data-action="repair">🔧 Ремонт</button>
+            <button data-action="sell">💰 Продать</button>
+            <button data-action="rent">🏨 Прокат</button>
+            <button data-action="race">🏁 Гонка</button>
+            <button data-action="auction">🔨 Аукцион</button>
+            <button data-action="taxi">🚕 Таксовать</button>
+            <button id="end">Передать ход →</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side">
+        <div class="panel"><h3>Мой гараж</h3><div id="garage"></div></div>
+        <div class="panel"><h3>Аукцион</h3><div id="auction">Нет активного аукциона</div></div>
+      </aside>
+    </div>
+  </main>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
+</body>
+</html>
