@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
 const crypto = require("crypto");
@@ -6,7 +7,8 @@ const crypto = require("crypto");
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 
 const rooms = new Map();
 
@@ -58,7 +60,7 @@ function publicRoom(room){
     host:room.host,
     phase:room.phase,
     turn:room.turn,
-    players:room.players.map(p=>({...p, socketId:undefined})),
+    players:room.players.map(p=>({id:p.id,name:p.name,money:p.money,debt:p.debt,pos:p.pos,cars:p.cars,tokens:p.tokens,color:p.color,hasMoved:p.hasMoved,connected:!!p.socketId})),
     board:CELLS,
     cars:room.cars.filter(c=>!c.owner && !c.coOwner).slice(0,18),
     auction:room.auction,
